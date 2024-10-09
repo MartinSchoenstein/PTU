@@ -1,6 +1,6 @@
 Descritpions de l'architecture
 
-datat/
+data/
      /0_raw
      /1_work
      /2_final 
