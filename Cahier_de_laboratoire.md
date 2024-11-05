@@ -129,22 +129,31 @@ Pour tout déplacer dans le dossier work data de l'espece
 - deplacer les analyses busco dans 1_work
 
 
-## DATE
+## DATE  25/10/24
 
 ### Taches: 
+- Blast entre une protéome fragmenté (Oriolus) et un protéome de référence (Galus) :
+
+makeblastdb -in <chemin_proteome> -dbtype prot -parse_seqids -out <nom_db>
+
+blastp -query <chemin_proteome_query> -db <nom_blastdb> -out <chemin_fichier_output>
+
+### Problèmes :
+- long et génère un lourd fichier, beaucoup de résultats
+### A faire :
+- Traiter le fichier de résultats afin de pouvoir mettre en avant plusieurs protéines d'Oriolus qui se mapperaint sur une seule de Galus et des protéines d'Oriolus qui ne se mapperaient pas sur toute la longueur de la protéine de référence
+
+
+## DATE 05/11/24
+
+### Taches: 
+- BUSCO sur les génomes de Anseranas, Galus, Oriolus, Calcarius, Herpetotheres et Taeniopygia (Theo)
+- 
 
 ### Problèmes :
 
 ### A faire :
 
-
-## DATE
-
-### Taches: 
-
-### Problèmes :
-
-### A faire :
 
 
 ## DATE
