@@ -5,6 +5,7 @@ description générale :
 projet6/
           /data
           /src
+          /conda
           README.md
           Cahier_de_laboratoire.md
 
@@ -33,3 +34,5 @@ src/ : contient les scripts
 
      CDS_FragmentationAnalyse.py : génère des graphs de distribution des cds par gène dans un génome à partir d'un fichier fasta (exemple résultats : /data/projet6/data/2_final/distribution.pdf )
      extract_besthit.py : génère un tableau csv contenant le besthit pour chaque query blastp avec les caractéristiques du hit (exemple output : /data/projet6/data/1_work/Analyse_BLASTp/Oriolus_Galus_Besthit.csv)
+
+conda/ : contient les environnements conda, les dossiers/fichiers générés par cela et les fichiers les décrivant
