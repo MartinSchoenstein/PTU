@@ -8,8 +8,6 @@ Python 3.12.4
 
 fichier_fasta -> argument 1 (fichier fasta cds pour analyse des cds par gène)
 filename_graphe -> argument 2 (chemin et nom du fichier de sortie)
-
-
 """
 import sys
 from Bio import SeqIO
@@ -31,21 +29,14 @@ def CDS_recup (description) :
                 matches = re.findall(pattern, description)
                 if matches : 
                         matches=matches[0]
-
                         return matches[7:-1].split(",")
-                        # print(matches)
-                        # print(type(matches))
-                        # print("####",matches[7:-1])
-                        # print("UwU",matches[7:-1].split(","))
 
 
 def compte_cdsPerGene(fichier_fasta,list_taille_CDS=[]) :
         with open(fichier_fasta, "r") as handle:
                 for record in SeqIO.parse(handle, "fasta"):
                         description = record.description
-                        # print("Description:", description) 
                         cds = CDS_recup(description)
-                        # print(type(cds))
                         if cds :   list_taille_CDS.append(len(cds))
         return list_taille_CDS
 
