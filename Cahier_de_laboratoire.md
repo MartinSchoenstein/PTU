@@ -215,14 +215,25 @@ id nohup : [1] 1981611
 - analyser les résultats TSV 
 
 
-## DATE
+## DATE : 06/11/2024
 
-### Taches: 
+### Tâche : Script générant un tableau regroupant les besthits du blastp et les (plusieurs ou uniques) protéines qui ont hit sur celles ci (Martin)
+- versions : python 3.13.0 / pandas 2.2.3
+- match_besthits.py
+
+- utilise le tableau généré par extract_besthits.py et génère un tableau avec en nom de colonne les best hits et dans chaque colonne les différentes protéines pour lesquelles on a obtenu ce besthit
+- utilisé pour générér :  /data/projet6/data/1_work/Analyse_BLASTp/Oriolus_Galus_MatchBesthits.csv
+
+### But : 
+- permettra d'identifier à partir du tableau de sortie des protentielles protéines fragmentées ayant donc hit sur leurs homolgues communes 
 
 ### Problèmes :
+- on retrouve pour quelques besthits 2 protéines mais pas plus
 
 ### A faire :
-
+- relier les liens besthits/prot avec le score pour voir si les cas ou on a 2 potéines pour 1 besthit ont du sens
+- refléchir à ne pas prendre que le besthit du blastp en fonction des scores en dessous
+- a terme si cela permet d'identifier 2 protéines dans les protéomes fragmentés qui n'en sont en réalité qu'une seule, retrouver la séquence complète dans le génome 
 
 ## DATE
 
