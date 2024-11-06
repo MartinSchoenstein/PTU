@@ -12,6 +12,9 @@ projet6/
 data/
      /0_raw
      /1_work
+          /Analyse_BLASTp
+          /Analyse_BUSCO
+          /gallus_db
      /2_final 
 
 0_raw/ : Contient les données brutes non modifiées, prêtes à être utilisées dans les scripts. Ce sont les fichiers de base d'où part le traitement.
