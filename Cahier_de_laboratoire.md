@@ -235,10 +235,300 @@ id nohup : [1] 1981611
 - refléchir à ne pas prendre que le besthit du blastp en fonction des scores en dessous
 - a terme si cela permet d'identifier 2 protéines dans les protéomes fragmentés qui n'en sont en réalité qu'une seule, retrouver la séquence complète dans le génome 
 
-## DATE
 
-### Taches: 
+## DATE : 18/11/2024
+
+### Tâche : Analyse des décalages dans les alignements BLASTp (difstart et diffend) (Jérémie)
+
+- Versions : Python 3.12.7 / Pandas 2.2.3 / Matplotlib 3.8.0 / Seaborn 0.12.0
+- Developpement du Script: AnnotationCorrectionTest1.py
+
+### But :
+- Analyser les différences de décalage entre les positions de début (difstart) et de fin (diffend) des alignements dans les résultats de BLASTp, afin de déterminer si des protéines fragmentées peuvent être identifiées et de définir un critère pour considérer un alignement comme complet.
+
+### Méthodes :
+1. Tri des meilleurs alignements : Avant de procéder à l'analyse des décalages, nous avons trié les alignements pour ne conserver que les meilleurs résultats, en filtrant notamment les hits avec une valeur evalue égale à 0.0, qui sont considérés comme aberrants.
+2. Calcul des différences de décalages : Calcul des décalages de début et de fin pour chaque alignement, après avoir appliqué un filtrage rigoureux.
+3. Statistiques : Calcul des statistiques descriptives (moyenne, médiane, écart-type, etc.) pour les colonnes difstart et diffend.
+4. Visualisation : Création d'histogrammes pour visualiser la distribution des différences de décalages.
+5. Analyse des décalages à 0 : Comptage des cas où les décalages sont égaux à 0, ce qui pourrait suggérer un alignement parfait entre les protéines.
+
+### Problèmes rencontrés :
+- Une grande proportion des alignements ont des décalages proches de zéro pour difstart et diffend, ce qui pourrait indiquer que de nombreuses protéines sont déjà parfaitement alignées.
+- Le nombre de décalages à zéro reste significatif malgré le filtrage, ce qui nécessite une analyse plus approfondie pour interpréter ces résultats.
+
+### À faire :
+1. Définir un seuil d'alignement complet basé sur les décalages et les statistiques observées.
+2. Explorer les cas de décalages faibles pour mieux comprendre s'ils représentent des alignements de protéines fragmentées.
+3. Analyser les protéines avec des décalages importants afin d'identifier celles qui pourraient être des protéines incomplètes ou mal alignées.
+
+
+## DATE : 23/11/24 
+
+### Tâche : Installation et exécution de AGAT (Jérémie)
+
+- Versions : 
+- agat		0.8.1
+- perl		5.26.2
+- conda		24.9.1
+- python	3.12.7
+
+- Script : AgatAutomatisationExecut.sh
+
+- installation de Agat pour agat_sp_keep_longest_isoform.pl
+- dl de tout les gff pour nos espèces
+- automatisation de la commande pour l'appliquer à toutes les espèces 
+
+### But :
+- Récupérer les isoforme avec les séquences les plus longues de nos espèces pour permettre de meilleur alignements par BALSTP. 
+
+### workflow : 
+
+#### Télechargement de tout les fichiers gff : ( à exécuter dans chaque répertoire approprié (data\0_data\{nom_espece} )
+
+- Gallus gallus : wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/016/699/485/GCF_016699485.2_bGalGal1.mat.broiler.GRCg7b/GCF_016699485.2_bGalGal1.mat.broiler.GRCg7b_genomic.gff.gz
+
+- Calcarius ornatus : wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/013/397/715/GCA_013397715.1_ASM1339771v1/GCA_013397715.1_ASM1339771v1_genomic.gff.gz
+
+- Piprites chloris : wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/013/399/295/GCA_013399295.1_ASM1339929v1/GCA_013399295.1_ASM1339929v1_genomic.gff.gz
+
+- Herpetotheres cachinnans : wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/013/399/355/GCA_013399355.1_ASM1339935v1/GCA_013399355.1_ASM1339935v1_genomic.gff.gz
+
+- Anseranas semipalmata : wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/013/399/115/GCA_013399115.1_ASM1339911v1/GCA_013399115.1_ASM1339911v1_genomic.gff.gz
+
+- Taeniopygia guttata : wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/003/957/565/GCF_003957565.2_bTaeGut1.4.pri/GCF_003957565.2_bTaeGut1.4.pri_genomic.gff.gz
+
+- Oriolus oriolus : wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/013/400/235/GCA_013400235.1_ASM1340023v1/GCA_013400235.1_ASM1340023v1_genomic.gff.gz
+
+- tout dézipper : gunzip {nom_fichier_.zip}
+
+#### Conda : Création d'un nouveau conda pour cette tache
+
+- conda create --prefix /data/projet6/conda/carabin/agat_env python=3.9
+- conda activate /data/projet6/conda/carabin/agat_env
+- conda install perl
+
+- instalastion AGAT :
+- cpan install Module::Build
+- conda install -c bioconda agat
+
+
+#### commande : 
+
+- conda activate conda/carabin/agat_env/
+
+- /data/projet6/conda/carabin/agat_env/bin/agat_sp_keep_longest_isoform.pl --gff data/0_raw/Galus_raw_data/GCF_016699485.2_bGalGal1.mat.broiler.GRCg7b_genomic.gff --output /data/projet6/data/1_work/AGAT/Galus.AGAT.gff
+
+-  Affin de faire ce processus sur toutes les espèces, création d'un script .sh
+
+- nohup bash AgatAutomatisationExecut.sh > output_AgatScriptAutomatiosation.txt 2>&1
+
+
+
+
+### Problèmes rencontrés :
+
+### À faire :
+- Analyse des résultats Agat agat_sp_keep_longest_isoform.pl.
+
+
+## DATE 24/11/24
+
+### Taches: Analyse de la fragmentation avec OMArk
+Le but de cet analyse est de comparer en utilisant une autre méthode avant de valider les étaats de fragmentation trouvé en utilisant BUSCO
+conda create -n omark_env python=3.9 -y
+conda activate omark_env
+conda install -c bioconda omark
+
 
 ### Problèmes :
 
 ### A faire :
+
+ 
+
+### Tâche2 : Alignement BLASTP avec les fichier agat (Jérémie)
+
+- Création de la nouvelle base de données BLASTp avec les séquences ref de Galus de chaque isoforme le plus long pour chaque protéine. 
+- Création d'un script .sh pour lancer l'alignement de tout nos génomes sur la db Galus avec seulement les protéines issues de AGAT 
+
+
+- Versions : 
+- python	3.12.7
+- bash      	5.1.16
+- BLASTp    	2.12.0
+
+- script : 
+* LongestIsoformeNewFasta.py
+* BLASTpAutomatisationExecut.sh
+
+
+### But : 
+- Permet de refaire les alignements avec suelement les isoformes les plus long de chaque protéine pour la référence Galus. 
+
+### workflow : 
+
+#### Création des fichiers fasta avec seulement les isoformes les plus long : 
+
+- LongestIsoformeNewFasta.py : permet de créer un fichier fasta avec suelement les isoformes les plus longs, à partir du protéome entier de l'espèce (fasta)
+et du gff sortie par AGAT agat_sp_keep_longest_isoform.pl.
+- Usage : python script.py <whole_proteome> <gffAGAT> <fastaOUTPUT>
+- <whole_proteome> : Chemin vers le fichier FASTA contenant les séquences protéiques complètes
+- <gffAGAT>        : Chemin vers le fichier GFF annoté par AGAT
+- <fastaOUTPUT>    : Chemin où le fichier FASTA de sortie sera généré
+
+- commande : python src/LongestIsoformeNewFasta.py data/0_raw/Galus_raw_data/GCF_016699485.2_bGalGal1.mat.broiler.GRCg7b_protein.faa data/1_work/AGAT/Galus_AGAT.gff data/1_work/AGAT/Galus_AGAT_proteome.faa
+
+- création de la nouvelle db pour faire les BLASTP à partir du fichier AGTA pour la référence : 
+
+- makeblastdb -in <chemin_proteome_gallus_gallus> -dbtype prot -parse_seqids -out gallus_AGAT_db
+
+- commande : makeblastdb -in data/1_work/AGAT/Galus_AGAT_proteome.faa -dbtype prot -parse_seqids -out /data/projet6/data/1_work/AGAT/gallus_AGAT_db
+
+
+- BlastP avec la nouvelle db : 
+
+- blastp -query <chemin_proteome_query> -db <nom_blastdb> -out <chemin_fichier_output>
+
+- commande :  blastp -query /data/projet6/data/0_raw/Oriolus_raw_data/GCA_013400235.1_ASM1340023v1_protein.faa -db /data/projet6/data/1_work/AGAT/dataBase_AGAT_Gallus/gallus_AGAT_db -out /data/projet6/data/1_work/Analyse_AGAT_BLASTp/BLASTp_refGalius_Orioluse.txt
+
+automatisation pour toute les espèces : nohup bash /data/projet6/src/BLASTpAutomatisationExecut.sh > /data/projet6/logs/BLASTpAutomatisationExecut.log 2>&1 &
+
+
+### Problèmes rencontrés :
+- AGAT pour les protéomes de nos oiseaux sachant qu'ils sont de taille raisonnable ? 
+
+### À faire :
+- regarder resultats 
+sationExecut.log 2>&1 &
+[1] 2738950
+
+## Date : 25/11/24 
+
+### Tache1 : Relancement des BLASTp (Jérémie)
+
+- BLASTp n'a pas marché avec le script : BLASTpAutomatisationExecut.sh
+
+- Commande à la main : 
+
+* nohup blastp -query /data/projet6/data/0_raw/Calcarius_raw_data/GCA_013397715.1_ASM1339771v1_protein.faa \
+-db /data/projet6/data/1_work/AGAT/dataBase_AGAT_Gallus/gallus_AGAT_db \
+-out /data/projet6/data/1_work/Analyse_AGAT_BLASTp/BLASTp_refGallus_Calcarius.txt \
+-outfmt 6 -max_target_seqs 1 2>> /data/projet6/blastp_errors.txt &
+
+* nohup blastp -query /data/projet6/data/0_raw/Piprites_raw_data/GCA_013399295.1_ASM1339929v1_protein.faa \
+-db /data/projet6/data/1_work/AGAT/dataBase_AGAT_Gallus/gallus_AGAT_db \
+-out /data/projet6/data/1_work/Analyse_AGAT_BLASTp/BLASTp_refGallus_Piprites.txt \
+-outfmt 6 -max_target_seqs 1 2>> /data/projet6/blastp_errors.txt &
+
+* nohup blastp -query /data/projet6/data/0_raw/Herpetotheres_raw_data/GCA_013399355.1_ASM1339935v1_protein.faa \
+-db /data/projet6/data/1_work/AGAT/dataBase_AGAT_Gallus/gallus_AGAT_db \
+-out /data/projet6/data/1_work/Analyse_AGAT_BLASTp/BLASTp_refGallus_Herpetotheres.txt \
+-outfmt 6 -max_target_seqs 1 2>> /data/projet6/blastp_errors.txt &
+
+* nohup blastp -query /data/projet6/data/0_raw/Anseranas_raw_data/GCA_013399115.1_ASM1339911v1_protein.faa \
+-db /data/projet6/data/1_work/AGAT/dataBase_AGAT_Gallus/gallus_AGAT_db \
+-out /data/projet6/data/1_work/Analyse_AGAT_BLASTp/BLASTp_refGallus_Anseranas.txt \
+-outfmt 6 -max_target_seqs 1 2>> /data/projet6/blastp_errors.txt &
+
+* nohup blastp -query /data/projet6/data/0_raw/Oriolus_raw_data/GCA_013400235.1_ASM1340023v1_protein.faa \
+-db /data/projet6/data/1_work/AGAT/dataBase_AGAT_Gallus/gallus_AGAT_db \
+-out /data/projet6/data/1_work/Analyse_AGAT_BLASTp/BLASTp_refGallus_Oriolus.txt \
+-outfmt 6 -max_target_seqs 1 2>> /data/projet6/blastp_errors.txt &
+
+### tache2 : création d'un script pour extraire le protéine Gallus après le BlastP (jeremie)
+
+script : ExtractProtBalst.py
+
+
+commande : 
+
+* nohup python /data/projet6/src/ExtractProtBalst.py /data/projet6/data/1_work/Analyse_AGAT_BLASTp/BLASTp_refGallus_Oriolus.txt /data/projet6/data/0_raw/Galus_raw_data/GCF_016699485.2_bGalGal1.mat.broiler.GRCg7b_protein.faa /data/projet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Oriolus.faa &
+
+* nohup python /data/projet6/src/ExtractProtBalst.py /data/projet6/data/1_work/Analyse_AGAT_BLASTp/BLASTp_refGallus_Anseranas.txt /data/projet6/data/0_raw/Galus_raw_data/GCF_016699485.2_bGalGal1.mat.broiler.GRCg7b_protein.faa /data/projet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Anseranas.faa &
+
+* nohup python /data/projet6/src/ExtractProtBalst.py /data/projet6/data/1_work/Analyse_AGAT_BLASTp/BLASTp_refGallus_Calcarius.txt /data/projet6/data/0_raw/Galus_raw_data/GCF_016699485.2_bGalGal1.mat.broiler.GRCg7b_protein.faa /data/projet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Calcarius.faa &
+
+* nohup python /data/projet6/src/ExtractProtBalst.py /data/projet6/data/1_work/Analyse_AGAT_BLASTp/BLASTp_refGallus_Herpetotheres.txt /data/projet6/data/0_raw/Galus_raw_data/GCF_016699485.2_bGalGal1.mat.broiler.GRCg7b_protein.faa /data/projet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Herpetotheres.faa &
+
+* nohup python /data/projet6/src/ExtractProtBalst.py /data/projet6/data/1_work/Analyse_AGAT_BLASTp/BLASTp_refGallus_Piprites.txt /data/projet6/data/0_raw/Galus_raw_data/GCF_016699485.2_bGalGal1.mat.broiler.GRCg7b_protein.faa /data/projet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Piprites.faa &
+
+
+### A faire : 
+- refaire ces commandes quand tout les blastp auront fini de tourner. -> FAIT
+
+
+### Tache3 : Alignement protéine - genome avec miniprot. (Jeremie)
+
+- Téléchargement : de tout les .fna 
+
+* wget -P /data/projet6/data/0_raw/Oriolus_raw_data https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/013/400/235/GCA_013400235.1_ASM1340023v1/GCA_013400235.1_ASM1340023v1_cds_from_genomic.fna.gz
+
+* wget -P /data/projet6/data/0_raw/Calcarius_raw_data https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/013/397/715/GCA_013397715.1_ASM1339771v1/GCA_013397715.1_ASM1339771v1_cds_from_genomic.fna.gz
+
+* wget -P /data/projet6/data/0_raw/Piprites_raw_data/ https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/013/399/295/GCA_013399295.1_ASM1339929v1/GCA_013399295.1_ASM1339929v1_cds_from_genomic.fna.gz
+
+* wget -P /data/projet6/data/0_raw/Herpetotheres_raw_data/ https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/013/399/355/GCA_013399355.1_ASM1339935v1/GCA_013399355.1_ASM1339935v1_cds_from_genomic.fna.gz
+
+* wget -P /data/projet6/data/0_raw/Anseranas_raw_data/ https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/013/399/115/GCA_013399115.1_ASM1339911v1/GCA_013399115.1_ASM1339911v1_cds_from_genomic.fna.gz
+
+* gunzip /data/projet6/data/0_raw/Oriolus_raw_data/*.gz
+* gunzip /data/projet6/data/0_raw/Calcarius_raw_data/*.gz
+* gunzip /data/projet6/data/0_raw/Piprites_raw_data/*.gz
+* gunzip /data/projet6/data/0_raw/Herpetotheres_raw_data/*.gz
+* gunzip /data/projet6/data/0_raw/Anseranas_raw_data/*.gz
+
+
+- commandes Miniprot : 
+
+
+conda activate /data/projet6/conda/carabin/miniprot_env/
+
+
+- indexation des génomes : 
+
+ miniprot -d /data/projet6/data/1_work/DataFasta4Miniprot/indexOriolus.mpi  /data/projet6/data/0_raw/Oriolus_raw_data/GCA_013400235.1_ASM1340023v1_cds_from_genomic.fna
+
+miniprot -t8 -d /data/projet6/data/1_work/DataFasta4Miniprot/indexCalcarius.mpi /data/projet6/data/0_raw/Calcarius_raw_data/GCA_013397715.1_ASM1339771v1_cds_from_genomic.fna
+
+miniprot -t8 -d /data/projet6/data/1_work/DataFasta4Miniprot/indexPiprites.mpi /data/projet6/data/0_raw/Piprites_raw_data/GCA_013399295.1_ASM1339929v1_cds_from_genomic.fna
+
+miniprot -t8 -d /data/projet6/data/1_work/DataFasta4Miniprot/indexHerpetotheres.mpi /data/projet6/data/0_raw/Herpetotheres_raw_data/GCA_013399355.1_ASM1339935v1_cds_from_genomic.fna
+
+miniprot -t8 -d /data/projet6/data/1_work/DataFasta4Miniprot/indexAnseranas.mpi /data/projet6/data/0_raw/Anseranas_raw_data/GCA_013399115.1_ASM1339911v1_cds_from_genomic.fna
+
+
+- Alignement :
+
+miniprot /data/projet6/data/1_work/DataFasta4Miniprot/indexOriolus.mpi /data/projet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Oriolus.faa > /data/projet6/data/1_work/Analyse_Miniprot/Align_GalusProt_on_OriolusGenome.paf
+
+miniprot /data/projet6/data/1_work/DataFasta4Miniprot/indexCalcarius.mpi /data/projet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Calcarius.faa > /data/projet6/data/1_work/Analyse_Miniprot/Align_GalusProt_on_CalcariusGenome.paf
+
+miniprot /data/projet6/data/1_work/DataFasta4Miniprot/indexPiprites.mpi /data/projet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Piprites.faa > /data/projet6/data/1_work/Analyse_Miniprot/Align_GalusProt_on_PipritesGenome.paf
+
+miniprot /data/projet6/data/1_work/DataFasta4Miniprot/indexHerpetotheres.mpi /data/projet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Herpetotheres.faa > /data/projet6/data/1_work/Analyse_Miniprot/Align_GalusProt_on_HerpetotheresGenome.paf
+
+miniprot /data/projet6/data/1_work/DataFasta4Miniprot/indexAnseranas.mpi /data/projet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Anseranas.faa > /data/projet6/data/1_work/Analyse_Miniprot/Align_GalusProt_on_AnseranasGenome.paf
+
+
+
+### Problèmes : 
+
+- mauvaise indexation du génome (k-mers = 0 ) forcement pas d'alignement -> Ca marche (pas mettre paramètres)
+
+- voir : https://lh3.github.io/miniprot/miniprot.html
+"""
+SYNOPSIS
+* Indexing a genome (recommended as indexing can be slow and memory hungry):
+miniprot [-t nThreads] -d ref.mpi ref.fna
+* Aligning proteins to a genome:
+
+miniprot [-t nThreads] ref.mpi protein.faa > output.paf
+miniprot [-t nThreads] ref.fna protein.faa > output.paf
+"""
+
+
+### A faire : 
+- a lancer après avoir lancer ExtractProtBalst.py après avoir fait les BlastP -> fait
+
+- Maintenant qu'on à les postions de chaque gènes (grace au Mapping des protéine de réf homologue) on peut vérifier et annoter nos génomes d'oiseaux. 
