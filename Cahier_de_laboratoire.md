@@ -1,5 +1,73 @@
 # Cahier de laboratoire Projet 6 
 
+## Données brutes : 
+
+```
+==> Anseranas_raw_data <==
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+#!genome-build ASM1339911v1
+#!genome-build-accession NCBI_Assembly:GCA_013399115.1
+##sequence-region VXAA01000001.1 1 111196
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=8851
+
+==> Calcarius_raw_data <==
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+#!genome-build ASM1339771v1
+#!genome-build-accession NCBI_Assembly:GCA_013397715.1
+##sequence-region WBNL01000001.1 1 7412501
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=198940
+
+==> Galus_raw_data <==
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+#!genome-build bGalGal1.mat.broiler.GRCg7b
+#!genome-build-accession NCBI_Assembly:GCF_016699485.2
+#!annotation-source NCBI Gallus gallus Annotation Release 106
+##sequence-region NC_052532.1 1 196449156
+
+==> Herpetotheres_raw_data <==
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+#!genome-build ASM1339935v1
+#!genome-build-accession NCBI_Assembly:GCA_013399355.1
+##sequence-region VXAJ01000001.1 1 11155328
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=56343
+
+==> Oriolus_raw_data <==
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+#!genome-build ASM1340023v1
+#!genome-build-accession NCBI_Assembly:GCA_013400235.1
+##sequence-region VXBT01000001.1 1 744
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=181099
+
+==> Piprites_raw_data <==
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+#!genome-build ASM1339929v1
+#!genome-build-accession NCBI_Assembly:GCA_013399295.1
+##sequence-region VXAH01000001.1 1 2828546
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=114369
+
+==> Taeniopygia_raw_data <==
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+#!genome-build bTaeGut1.4.pri
+#!genome-build-accession NCBI_Assembly:GCF_003957565.2
+#!annotation-source NCBI Taeniopygia guttata Annotation Release 106
+##sequence-region NC_044211.2 1 114020016
+```
+
+
 ## 09/10/2024
 
 ### Taches:
@@ -332,14 +400,15 @@ id nohup : [1] 1981611
 - Analyse des résultats Agat agat_sp_keep_longest_isoform.pl.
 
 
-## DATE 24/11/24
+## DATE 29/11/24
 
-### Taches: Analyse de la fragmentation avec OMArk
+### Taches: Analyse de la fragmentation avec OMArk (Theo)
 Le but de cet analyse est de comparer en utilisant une autre méthode avant de valider les étaats de fragmentation trouvé en utilisant BUSCO
 conda create -n omark_env python=3.9 -y
 conda activate omark_env
 conda install -c bioconda omark
-
+omamer search --db LUCA.h5 --query data/0_raw/Galus_raw_data/GCF_016699485.2_bGalGal1.mat.broiler.GRCg7b_protein.faa --out data/1_work/Analyse_OMArk/Gallus.omamer
+omark -f data/1_work/Analyse_OMArk/Gallus.omamer -d Aves.h5 -o data/1_work/Analyse_OMArk
 
 ### Problèmes :
 
@@ -489,13 +558,13 @@ conda activate /data/projet6/conda/carabin/miniprot_env/
 
  miniprot -d /data/projet6/data/1_work/DataFasta4Miniprot/indexOriolus.mpi  /data/projet6/data/0_raw/Oriolus_raw_data/GCA_013400235.1_ASM1340023v1_cds_from_genomic.fna
 
-miniprot -t8 -d /data/projet6/data/1_work/DataFasta4Miniprot/indexCalcarius.mpi /data/projet6/data/0_raw/Calcarius_raw_data/GCA_013397715.1_ASM1339771v1_cds_from_genomic.fna
+miniprot -d /data/projet6/data/1_work/DataFasta4Miniprot/indexCalcarius.mpi /data/projet6/data/0_raw/Calcarius_raw_data/GCA_013397715.1_ASM1339771v1_cds_from_genomic.fna
 
-miniprot -t8 -d /data/projet6/data/1_work/DataFasta4Miniprot/indexPiprites.mpi /data/projet6/data/0_raw/Piprites_raw_data/GCA_013399295.1_ASM1339929v1_cds_from_genomic.fna
+miniprot -d /data/projet6/data/1_work/DataFasta4Miniprot/indexPiprites.mpi /data/projet6/data/0_raw/Piprites_raw_data/GCA_013399295.1_ASM1339929v1_cds_from_genomic.fna
 
-miniprot -t8 -d /data/projet6/data/1_work/DataFasta4Miniprot/indexHerpetotheres.mpi /data/projet6/data/0_raw/Herpetotheres_raw_data/GCA_013399355.1_ASM1339935v1_cds_from_genomic.fna
+miniprot -d /data/projet6/data/1_work/DataFasta4Miniprot/indexHerpetotheres.mpi /data/projet6/data/0_raw/Herpetotheres_raw_data/GCA_013399355.1_ASM1339935v1_cds_from_genomic.fna
 
-miniprot -t8 -d /data/projet6/data/1_work/DataFasta4Miniprot/indexAnseranas.mpi /data/projet6/data/0_raw/Anseranas_raw_data/GCA_013399115.1_ASM1339911v1_cds_from_genomic.fna
+miniprot -d /data/projet6/data/1_work/DataFasta4Miniprot/indexAnseranas.mpi /data/projet6/data/0_raw/Anseranas_raw_data/GCA_013399115.1_ASM1339911v1_cds_from_genomic.fna
 
 
 - Alignement :
@@ -517,18 +586,239 @@ miniprot /data/projet6/data/1_work/DataFasta4Miniprot/indexAnseranas.mpi /data/p
 - mauvaise indexation du génome (k-mers = 0 ) forcement pas d'alignement -> Ca marche (pas mettre paramètres)
 
 - voir : https://lh3.github.io/miniprot/miniprot.html
-"""
-SYNOPSIS
-* Indexing a genome (recommended as indexing can be slow and memory hungry):
-miniprot [-t nThreads] -d ref.mpi ref.fna
-* Aligning proteins to a genome:
-
-miniprot [-t nThreads] ref.mpi protein.faa > output.paf
-miniprot [-t nThreads] ref.fna protein.faa > output.paf
-"""
 
 
 ### A faire : 
 - a lancer après avoir lancer ExtractProtBalst.py après avoir fait les BlastP -> fait
 
-- Maintenant qu'on à les postions de chaque gènes (grace au Mapping des protéine de réf homologue) on peut vérifier et annoter nos génomes d'oiseaux. 
+- Maintenant qu'on à les postions de chaque gènes (grace au Mapping des protéine de réf homologue) on peut vérifier et annoter nos génomes d'oiseaux. *
+
+- miniprot --gff-only /data/projet6/data/1_work/DataFasta4Miniprot/indexOriolus.mpi /data/projet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Oriolus.faa > /data/projet6/data/1_work/Analyse_Miniprot/Align_GalusProt_on_OriolusGenome.gff (format gff)
+
+
+
+## Date : 01/12/24
+
+### Tache1 : Determination des fragments (Martin) 
+conda : data/projet6/conda/schoenstein/env
+
+- le script LengthFromFasta.py est utilisé pour obtenit la taille de toutes les protéines de la référence
+- le script recovery_ratio.py génère un tableau contenant chaque paire d'homolgue et la ratio entre la taille de leurs alignements et la taille de la protéine de référence
+- génération de courbes avec recovery_distribution.py ("/data/projet6/data/2_final/recovery_distribution_anseranas.png" par exemple) représentant les ratios obtenus précédemment
+
+--> on choisit 0.6 comme seuil en dessous duquel on trouve des protéines fragmentées
+
+
+### Tache2 : Ecirture du script de corrections de gff (Jérémie)
+conda : /data/projet6/conda/carabin/PTU_groupe6  
+GFFcorrection.py  
+
+commande : 
+```
+python /data/projet6/src/GFFcorrection.py -g /data/projet6/data/0_raw/Oriolus_raw_data/GCA_013400235.1_ASM1340023v1_genomic.gff -o /data/projet6/data/1_work/GFF_corrected/Oriolus_corrected -c /data/projet6/data/1_work/Analyse_Miniprot/Align_GalusProt_on_OriolusGenome.gff -l /data/projet6/data/1_work/test_listeprot.txt  
+```  
+
+
+
+## date 02/12/2024 : 
+
+### Tache : essay de faire tBLASTn : 
+
+- Creation de la base de données avec génome oriolus : makeblastdb -in ./../../0_raw/Oriolus_raw_data/GCA_013400235.1_ASM1340023v1_cds_from_genomic.fna -dbtype nucl -out .
+
+- tBLASTn dessus : 
+```
+tblastn -query /data/projet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Oriolus.faa -db /data/projet6/data/1_work/oriolus_db_tBLASTn/oriolus_db_tBLASTn -out /data/projet6/data/1_work/tBLASTn_galusprot_ON_Oriolus_genome -outfmt 7
+``` 
+
+pour voir si plus simple pour récupérer les nouvelles coordonnées pour corriger les gff. 
+
+tblastn: 2.12.0+
+ Package: blast 2.12.0, build Mar  8 2022 16:19:08
+
+
+teste 2 : 
+
+-max_target_seqs : Limite le nombre de meilleurs alignements retournés (fixe-le à 1 pour obtenir uniquement le meilleur alignement).
+-max_hsps : Limite le nombre de HSPs (High-scoring Segment Pairs) retournés. Mets-le à 1 pour ne prendre que le meilleur HSP.
+-max_intron_length : Ce paramètre permet de spécifier la longueur maximale des introns pour les alignements de type tblastn dans les génomes. Cela est important si tu cherches à aligner des gènes sur des régions génomiques avec des introns longs.
+-outfmt : Le format de sortie peut être le format 6 (tabulaire) pour des informations simples ou 7 si tu veux des informations détaillées sur les alignements.
+
+tblastn -query <query_protein.faa> -db <genome_database.fna> -out <output_file.txt> -outfmt 6 -max_target_seqs 1 -max_hsps 1 -max_intron_length 10000
+
+ makeblastdb -in /data/projet6/data/0_raw/Oriolus_raw_data/GCA_013400235.1_ASM1340023v1_genomic.fna -dbtype nucl -out /data/projet6/data/1_work/oriolus_db_tBLASTn/oriolus_genomic_db
+
+ tblastn -query /data/projet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Oriolus.faa -db /data/projet6/data/1_work/oriolus_db_tBLASTn/oriolus_genomic_db -out /data/projet6/data/1_work/tBLASTn_GalusPro
+t_ON_Oriolus_genome -outfmt 7 -max_target_seqs 1 -max_hsps 1 -max_intron_length 10000
+
+
+
+tblastn -query /data/projet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Oriolus.faa -db /data/projet6/data/1_work/oriolus_db_tBLASTn/oriolus_genomic_db -out /data/projet6/data/1_work/tBLASTn_GalusProt_ON_Oriolus_genome -outfmt 7 -max_target_seqs 5 -max_intron_length 50000 -evalue 1e-3 -word_size 3
+
+
+peut etre chanegr d'outil : 
+exonerate --model protein2genome query.fasta target_genome.fasta > output.exonerate
+
+
+exonerate --model protein2genome /data/projet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Oriolus.faa /data/projet6/data/0_raw/Oriolus_raw_data/GCA_013400235.1_ASM1340023v1_genomic.fna > output.exonerate
+
+conda create --prefix /data/projet6/conda/carabin/exonerate_env python=3.9
+conda activate /data/projet6/conda/carabin/exonerate_env
+conda install -c bioconda exonerate
+
+
+## date 04/12/24 : 
+
+### Tache : Re teste des alignement avec miniprot
+
+#### Commande : 
+
+```
+conda activate /data/projet6/conda/carabin/miniprot_env/
+```
+
+```
+miniprot /data/projet6/data/1_work/DataFasta4Miniprot/indexOriolus.mpi /data/projet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Oriolus.faa --outn 1 --gff --aln > /data/projet6/data/1_work/Analyse_Miniprot/Align_GalusProt_on_OriolusGenome_v2.gff
+```
+-> non concluant
+
+
+
+** indexation avec whole genome fasta : **
+
+ miniprot -d /data/projet6/data/1_work/DataFasta4Miniprot/indexOriolus.mpi  /data/projet6/data/0_raw/Oriolus_raw_data/GCA_013400235.1_ASM1340023v1_cds_from_genomic.fna
+
+
+```
+miniprot /data/projet6/data/1_work/DataFasta4Miniprot/indexOriolus_WHOLE_genome.mpi /data/pr
+ojet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Oriolus.faa --outn 1 --gff --aln > /data/projet6/data/1_work/Analyse_Miniprot/Align_GalusProt_on_OriolusGenome_WHOLE_genome.gff
+```
+
+
+miniprot /data/projet6/data/1_work/DataFasta4Miniprot/indexOriolus_WHOLE_genome.mpi /data/pr
+ojet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Oriolus.faa --outn 1 --gff -j --aln > /data/projet6/data/1_work/Analyse_Miniprot/Align_GalusProt_on_OriolusGenome_WHOLE_genome_with_EXON.gff
+
+
+### Tache : script gff_correction_v2.py
+
+#### Commande  :
+
+python /data/projet6/src/gff_correction_v2.py -l /data/projet6/dat
+a/1_work/recovery2.csv -g /data/projet6/data/0_raw/Oriolus_raw_data/GCA_013400235.1_ASM1340023v1_genomic.gff -m /data/projet6/data/1_work/Analyse_Miniprot/Align_GalusProt_on_OriolusGenome_WHOLE_genome.gff -o /data/projet6/data/1_work/GFF_corrected/Oriolus_corrected.gff
+
+### SUITE : 
+
+Faire des fichiers fasta pour analyser leu fragmentation et éventuelement leur amélioration : 
+
+GFF -> genome.fasta : 
+
+agat_sp_extract_sequences.pl --gff /data/projet6/data/1_work/GFF_corrected/Oriolus_corrected.gff --fasta /data/projet6/data/0_raw/Oriolus_raw_data/GCA_013400235.1_ASM1340023v1_genomic.fna -o /data/projet6/data/1_work/GFF_corrected/Oriolus_genome_fasta.faa
+
+genome.fasta -> prot.fsata :
+
+agat_sp_extract_sequences.pl -g /data/projet6/data/1_work/GFF_corrected/Oriolus_corrected.gff -f /data/projet6/data/0_raw/Oriolus_raw_data/GCA_013400235.1_ASM1340023v1_genomic.fna -t cds -p -o /data/projet6/data/1_work/GFF_corrected/Oriolus_protein_sequences.faa
+
+
+### Reste a faire : refaire tout les index de génome entier (pas que cds) puis alignement puis script gff_correction_v2.py puis les deux commandes agat
+
+
+
+
+
+## DATE 05/12/24
+
+### Taches : creation des nouveaux genomes indéxés (jeremie)
+
+#### data dl : 
+```
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/013/399/115/GCA_013399115.1_ASM1339911v1/GCA_013399115.1_ASM1339911v1_genomic.fna.gz  
+
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/013/399/355/GCA_013399355.1_ASM1339935v1/GCA_013399355.1_ASM1339935v1_genomic.fna.gz  
+
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/013/399/295/GCA_013399295.1_ASM1339929v1/GCA_013399295.1_ASM1339929v1_genomic.fna.gz
+
+wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/013/397/715/GCA_013397715.1_ASM1339771v1/GCA_013397715.1_ASM1339771v1_genomic.fna.gz
+
+```
+#### indexation : 
+
+```
+miniprot -d /data/projet6/data/1_work/DataFasta4Miniprot/indexCalcarius_WHOLE_genome.mpi  /data/projet6/data/0_raw/Calcarius_raw_data/GCA_013397715.1_ASM1339771v1_genomic.fna
+
+miniprot -d /data/projet6/data/1_work/DataFasta4Miniprot/indexPiprites_WHOLE_genome.mpi /data/projet6/data/0_raw/Piprites_raw_data/GCA_013399295.1_ASM1339929v1_genomic.fna
+
+miniprot -d /data/projet6/data/1_work/DataFasta4Miniprot/indexHerpetotheres_WHOLE_genome.mpi /data/projet6/data/0_raw/Herpetotheres_raw_data/GCA_013399355.1_ASM1339935v1_genomic.fna
+
+miniprot -d /data/projet6/data/1_work/DataFasta4Miniprot/indexAnseranas_WHOLE_genome.mpi /data/projet6/data/0_raw/Anseranas_raw_data/GCA_013399115.1_ASM1339911v1_genomic.fna
+
+
+```
+#### Alignement : 
+
+
+```
+miniprot /data/projet6/data/1_work/DataFasta4Miniprot/indexCalcarius_WHOLE_genome.mpi /data/projet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Calcarius.faa --outn 1 --gff -j --aln > /data/projet6/data/1_work/Analyse_Miniprot/Align_GalusProt_on_CalcariusGenome_WHOLE_genome.gf
+
+miniprot /data/projet6/data/1_work/DataFasta4Miniprot/indexAnseranas_WHOLE_genome.mpi /data/projet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Anseranas.faa --outn 1 --gff -j --aln > /data/projet6/data/1_work/Analyse_Miniprot/Align_GalusProt_on_AnseranasGenome_WHOLE_genome.gff
+
+miniprot /data/projet6/data/1_work/DataFasta4Miniprot/indexHerpetotheres_WHOLE_genome.mpi /data/projet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Herpetotheres.faa --outn 1 --gff -j --aln > /data/projet6/data/1_work/Analyse_Miniprot/Align_GalusProt_on_HerpetotheresGenome_WHOLE_genome.gff
+
+miniprot /data/projet6/data/1_work/DataFasta4Miniprot/indexPiprites_WHOLE_genome.mpi /data/projet6/data/1_work/DataFasta4Miniprot/FastaBestHit_Piprites.faa --outn 1 --gff -j --aln > /data/projet6/data/1_work/Analyse_Miniprot/Align_GalusProt_on_PipritesGenome_WHOLE_genome.gff
+```
+
+#### Correction : 
+
+python /data/projet6/src/gff_correction_v2.py -l /data/projet6/dat
+a/1_work/recovery2.csv -g /data/projet6/data/0_raw/Oriolus_raw_data/GCA_013400235.1_ASM1340023v1_genomic.gff -m /data/projet6/data/1_work/Analyse_Miniprot/Align_GalusProt_on_OriolusGenome_WHOLE_genome.gff -o /data/projet6/data/1_work/GFF_corrected/Oriolus_corrected.gff
+
+```
+python /data/projet6/src/gff_correction_v2.py -l /data/projet6/data/1_work/recovery_anseranas.csv -g //data/projet6/data/0_raw/Anseranas_raw_data/GCA_013399115.1_ASM1339911v1_genomic.gff -m /data/projet6/data/1_work/Analyse_Miniprot/Align_GalusProt_on_AnseranasGenome_WHOLE_genome.gff -o /data/projet6/data/1_work/GFF_corrected/Anseranas_corrected.gff
+
+python /data/projet6/src/gff_correction_v2.py -l /data/projet6/data/1_work/recovery_calcarius.csv -g /data/projet6/data/0_raw/Calcarius_raw_data/GCA_013397715.1_ASM1339771v1_genomic.gff -m /data/projet6/data/1_work/Analyse_Miniprot/Align_GalusProt_on_CalcariusGenome_WHOLE_genome.gf -o /data/projet6/data/1_work/GFF_corrected/Calcarius_corrected.gff
+
+python /data/projet6/src/gff_correction_v2.py -l /data/projet6/data/1_work/recovery_herpetotheres.csv -g /data/projet6/data/0_raw/Herpetotheres_raw_data/GCA_013399355.1_ASM1339935v1_genomic.gff -m /data/projet6/data/1_work/Analyse_Miniprot/Align_GalusProt_on_HerpetotheresGenome_WHOLE_genome.gff -o /data/projet6/data/1_work/GFF_corrected/Herpetotheres_corrected.gff
+
+python /data/projet6/src/gff_correction_v2.py -l /data/projet6/data/1_work/recovery_piprites.csv -g /data/projet6/data/0_raw/Piprites_raw_data/GCA_013399295.1_ASM1339929v1_genomic.gff -m /data/projet6/data/1_work/Analyse_Miniprot/Align_GalusProt_on_PipritesGenome_WHOLE_genome.gff -o /data/projet6/data/1_work/GFF_corrected/Piprites_corrected.gff
+```
+#### Creation des fichier fasta : 
+
+
+conda activate /data/projet6/conda/carabin/agat_env/
+
+GFF -> genome.fasta : 
+
+
+```
+agat_sp_extract_sequences.pl --gff /data/projet6/data/1_work/GFF_corrected/Anseranas_corrected.gff --fasta /data/projet6/data/0_raw/Anseranas_raw_data/GCA_013399115.1_ASM1339911v1_genomic.fna -o /data/projet6/data/1_work/GFF_corrected/Anseranas_genome_fasta.faa
+
+agat_sp_extract_sequences.pl --gff /data/projet6/data/1_work/GFF_corrected/Calcarius_corrected.gff --fasta /data/projet6/data/0_raw/Calcarius_raw_data/GCA_013397715.1_ASM1339771v1_genomic.fna -o /data/projet6/data/1_work/GFF_corrected/Calcarius_genome_fasta.faa
+
+agat_sp_extract_sequences.pl --gff /data/projet6/data/1_work/GFF_corrected/Herpetotheres_corrected.gff --fasta /data/projet6/data/0_raw/Herpetotheres_raw_data/GCA_013399355.1_ASM1339935v1_genomic.fna -o /data/projet6/data/1_work/GFF_corrected/Herpetotheres_genome_fasta.faa
+
+agat_sp_extract_sequences.pl --gff /data/projet6/data/1_work/GFF_corrected/Piprites_corrected.gff --fasta /data/projet6/data/0_raw/Piprites_raw_data/GCA_013399295.1_ASM1339929v1_genomic.fna -o /data/projet6/data/1_work/GFF_corrected/Piprites_genome_fasta.faa
+
+```
+GFF -> prot.fsata :
+
+
+```
+agat_sp_extract_sequences.pl -g /data/projet6/data/1_work/GFF_corrected/Anseranas_corrected.gff -f /data/projet6/data/0_raw/Anseranas_raw_data/GCA_013399115.1_ASM1339911v1_genomic.fna -t cds -p -o /data/projet6/data/1_work/GFF_corrected/Anseranas_protein_sequences.faa
+
+agat_sp_extract_sequences.pl -g /data/projet6/data/1_work/GFF_corrected/Calcarius_corrected.gff -f /data/projet6/data/0_raw/Calcarius_raw_data/GCA_013397715.1_ASM1339771v1_genomic.fna -t cds -p -o /data/projet6/data/1_work/GFF_corrected/Calcarius_protein_sequences.faa
+
+agat_sp_extract_sequences.pl -g /data/projet6/data/1_work/GFF_corrected/Herpetotheres_corrected.gff -f /data/projet6/data/0_raw/Herpetotheres_raw_data/GCA_013399355.1_ASM1339935v1_genomic.fna -t cds -p -o /data/projet6/data/1_work/GFF_corrected/Herpetotheres_protein_sequences.faa
+
+agat_sp_extract_sequences.pl -g /data/projet6/data/1_work/GFF_corrected/Piprites_corrected.gff -f /data/projet6/data/0_raw/Piprites_raw_data/GCA_013399295.1_ASM1339929v1_genomic.fna -t cds -p -o /data/projet6/data/1_work/GFF_corrected/Piprites_protein_sequences.faa
+```
+
+### Taches: Analyse de la fragmentation avec OMArk des protéomes après correction (Theo)
+
+
+## DATE 07/12/2024
+
+### Taches : Positions des fragments (Martin)
+conda : /data/projet6/data/2_final/recovery_distribution_anseranas.png
+
+- le script fragment_positions.py génère un tableau contenant pour chaque paires d'homologues la position relative à la taille de la protéine de référence du début de l'alignement
+- on génère des courbes représentant ces résultats grâce à fragment_positions_plot.py 
+( exemple : /data/projet6/data/2_final fragment_positions_piprites.png)
