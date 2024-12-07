@@ -65,8 +65,7 @@ def get_data_gff(ligne) :
                    "strand" : strand                    
                    }
     dict_part2 = get_annotation_gff(datapart2)
-    for key in dict_part2 : dict_ligne_gff[key] = dict_part2[key]
-    
+    for key in dict_part2 : dict_ligne_gff[key] = dict_part2[key]    
     return dict_ligne_gff
 
 
